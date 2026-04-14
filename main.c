@@ -145,6 +145,66 @@ char *convertLongBvToStr(unsigned char *vec, size_t sz){
   return str;}
   return NULL;
 }
+
+
+
+unsigned char *shiftLeft(unsigned char *vec, size_t len, size_t n) {
+    if (!vec) return NULL;
+    if (n >= len){return NULL;}
+    size_t size_byte = ((len - 1) / 8) + 1;
+    unsigned char *result = NULL;
+    result = (unsigned char*)malloc(size_byte);
+    for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
+    if (!result) return NULL;
+    size_t byte = n / 8; // на сколько байтов сдвиг
+    size_t bit = n % 8; // на сколько бит сдвиг
+
+    for (size_t i = 0; i < size_byte; i++) {
+        unsigned char byte_working = 0;
+
+        if (i + byte < size_byte) {
+            byte_working = vec[i + byte] >> bit;}
+        if (bit > 0 && (i + byte + 1 < size_byte)) {
+            unsigned char perenos = vec[i + byte + 1] << (8 - bit);
+            byte_working = byte_working | perenos;
+        }
+        result[i] = byte_working;}
+    int ostat = len % 8;
+    if (ostat != 0) {
+        unsigned char mask = -1;
+        mask = (mask >> (8-ostat));
+        result[size_byte - 1] = result[size_byte - 1] & mask;
+    }
+    return result;
+}
+
+unsigned char *shiftRight(unsigned char *vec, size_t len, size_t n) {
+    if (!vec) return NULL;
+
+    size_t size_byte = ((len - 1) / 8) + 1;
+    unsigned char *result = NULL;
+    result = (unsigned char*)malloc(size_byte);
+    if (!result) return NULL;
+    for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
+    size_t byte = n / 8; // на сколько байтов сдвиг
+    size_t bit = n % 8; // на сколько бит сдвиг
+
+    for (size_t i = size_byte-1; i < size_byte; i--) {
+        unsigned char byte_working = 0;
+
+        if (i >= byte) {
+            byte_working = vec[i - byte] << bit;}
+        if (bit > 0 && (i > byte)) {
+            unsigned char perenos = vec[i - byte - 1] >> (8 - bit);
+            byte_working = byte_working | perenos;
+        }
+        result[i] = byte_working;}
+    int ostat = len % 8;
+    if (ostat != 0) {
+        unsigned char mask =-1;
+        mask = (mask >> (8-ostat));
+        result[size_byte - 1] = result[size_byte - 1] & mask;}
+    return result;}
 int main()
 {
     printf("Hello World!\n");
