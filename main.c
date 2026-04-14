@@ -101,6 +101,26 @@ void set0(unsigned char *vec, size_t len,size_t k)
     mask = mask << bit;
     vec[byte] = vec[byte] ^ mask;}
 }
+
+unsigned char *convertStrtoLongBv(char *str, int *cells){
+  if(str && cells){
+    int len = 0, ix = 0;
+    len = strlen(str);
+    *cells = ((len - 1) / 8) + 1;
+    unsigned char mask = 1;
+    unsigned char *vec = (unsigned char*)malloc(sizeof(unsigned char) * (*cells));
+    if (vec==NULL) {return NULL;}
+    for (int i = 0; i < *cells; i++) {vec[i] = 0;}
+    for (int i = 0; i < *cells; i++)
+      {
+        mask = 1;
+        for (size_t j = 0; (j < 8) && (ix < len); j++){
+              if(str[ix] != '0'){
+                      vec[i] = vec[i] | mask;}
+              mask = mask << 1;
+              ix++;}}
+  return vec;}
+  return NULL;}
 int main()
 {
     printf("Hello World!\n");
