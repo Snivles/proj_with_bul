@@ -228,8 +228,8 @@ int main()
   //char *strA = "110011"; // 6 бит
   //char *strB = "000000"; // 8 бит
 
-  char *strA = "101001111"; // 9 бит
-  char *strB = "010110000"; // 9 бит
+  //char *strA = "101001111"; // 9 бит
+  //char *strB = "010110000"; // 9 бит
 
   //char *strA = "g0f00das"; // 8 бит тест нужен чтобы показать, что на вход может поступать что угодно и все будет работать верно
   //char *strB = "01011000"; // 8 бит
@@ -241,8 +241,8 @@ int main()
   //char *strB = "9"; // 1 бит !!! не происходит изменение хвоста даже если ставим сет бит  поэтому его тут обрабатывать не надо!!!
 
 
-  //char *strA = "1111001";//7 бит
-  //char *strB = "1111111"; // 7 бит
+  char *strA = "1111001";//7 бит
+  char *strB = "1111111"; // 7 бит
   //char *strB = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; // 100 бит
   //char *strA = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"; // 100 бит
 
@@ -254,6 +254,19 @@ int main()
   int lenB = strlen(strB);
   if (lenA <= 0 || lenB <= 0 || lenA != lenB){printf("Error with size"); return 0;}
 
+
+
+unsigned char *result = inversion(vecA, lenA);
+  if (result){
+    unsigned char *result2 = shiftLeft(result, lenA,3);
+  if (result2){
+    char *stroka = convertLongBvToStr(result2, cellsA);
+    printf("kaskad %s \n", stroka);
+    free(stroka);}
+    free(result);
+    result = NULL;
+    free(result2);
+    result2 = NULL;}
 /*
 for (int i = 0 ; i < 100; i++){
     printf("\n");
@@ -296,7 +309,7 @@ printf("\n");
   //  vecA = result;}
 //}
 
-unsigned char *result = logSum(vecA, lenA,vecB, lenB);
+result = logSum(vecA, lenA,vecB, lenB);
 printBV(result,lenA);
 if (result){
     char *stroka = convertLongBvToStr(result, cellsA);
