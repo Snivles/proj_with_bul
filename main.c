@@ -53,6 +53,28 @@ unsigned char *sumMod2(unsigned char *vecA, size_t lenA,unsigned char *vecB, siz
     return result;}
   return NULL;}
 
+
+//Инверсия
+// 101001110
+// 010110001 (т е если встретили 1 то меняем на 0 и наоборот)
+unsigned char *inversion(unsigned char *vec, size_t len) {
+    if (vec){
+    unsigned char *result = NULL;
+    size_t size_byte = ((len - 1) / 8) + 1;
+    result = (unsigned char*)malloc(size_byte);
+    for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
+    if (result) {
+        for (size_t i = 0; i < size_byte; i++) {
+            result[i] = ~vec[i];}
+
+        if (len % 8 != 0) {// очистка хвоста путем определения его длины сдвига маски и лог умножения
+            int ostat = len % 8;
+            unsigned char clean = -1;
+            clean = (clean >> (8-ostat));
+            result[size_byte - 1] = result[size_byte - 1] & clean;
+        }}
+    return result;}
+    return NULL;}
 int main()
 {
     printf("Hello World!\n");
