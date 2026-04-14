@@ -225,6 +225,143 @@ void printBV(unsigned char *vec, int size){
 }
 int main()
 {
-    printf("Hello World!\n");
-    return 0;
+  //char *strA = "110011"; // 6 бит
+  //char *strB = "000000"; // 8 бит
+
+  //char *strA = "101001111"; // 9 бит
+  //char *strB = "010110000"; // 9 бит
+
+  //char *strA = "g0f00das"; // 8 бит тест нужен чтобы показать, что на вход может поступать что угодно и все будет работать верно
+  //char *strB = "01011000"; // 8 бит
+
+  //char *strA = "     0 0"; // 8 бит
+  //char *strB = "00000000"; // 8 бит
+
+  //char *strA = "1"; // 1 бит
+  //char *strB = "9"; // 1 бит !!! не происходит изменение хвоста даже если ставим сет бит  поэтому его тут обрабатывать не надо!!!
+
+
+  char *strA = "1111001";
+  char *strB = "1111111";
+  //char *strB = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; // 100 бит
+  //char *strA = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"; // 100 бит
+
+  int cellsA, cellsB;
+  unsigned char *vecA = convertStrtoLongBv(strA, &cellsA);
+  unsigned char *vecB = convertStrtoLongBv(strB, &cellsB);
+
+  int lenA = strlen(strA);
+  int lenB = strlen(strB);
+  if (lenA <= 0 || lenB <= 0 || lenA != lenB){printf("Error with size"); return 0;}
+
+/*
+for (int i = 0 ; i < 100; i++){
+    printf("\n");
+    set1(vecB,lenB,i);
+    printBV(vecB,lenB);
+}
+printf("\n");
+printf("----------------------------------------------------------------------------------------------------");
+
+for (int i = 0 ; i < 100; i++){
+    printf("\n");
+    set0(vecA,lenA,i);
+    printBV(vecA,lenA);
+}
+printf("\n");
+*/
+
+//Сдвиг влево
+//for (int i = 0 ; i <= 7 ; i++){
+  //printf("\n");
+  //if (i ==0){printBV(vecA, lenA);}
+  //else{
+  //unsigned char * result = shiftLeft(vecA, lenA, 1);
+  //if (result){
+    //printBV(result, lenA);}
+    //free(vecA);
+    //vecA = result;}
+//}
+//printf("\n");
+//printf("----------------------------------------------------------------------------------------------------");
+//Сдвиг вправо
+//for (int i = 7 ; i >=0 ; i--){
+  //printf("\n");
+  //if (i ==100){printBV(vecA, lenA);}
+  //else{
+  //unsigned char * result = shiftRight(vecA, lenA, 1);
+  //if (result){
+   // printBV(result, lenA);}
+    //free(vecA);
+  //  vecA = result;}
+//}
+
+unsigned char *result = logSum(vecA, lenA,vecB, lenB);
+printBV(result,lenA);
+if (result){
+    char *stroka = convertLongBvToStr(result, cellsA);
+    printf("Sum: %s \n", stroka);
+    free(result);
+    result = NULL;
+    free(stroka);
+    stroka = NULL;}
+
+result = logMul(vecA, lenA,vecB, lenB);
+printBV(result,lenA);
+if (result){
+    char *stroka = convertLongBvToStr(result, cellsA);
+    printf("Mul: %s \n", stroka);
+    free(result);
+    result = NULL;
+    free(stroka);
+    stroka = NULL;}
+
+result = sumMod2(vecA, lenA,vecB, lenB);
+printBV(result,lenA);
+if (result){
+    char *stroka = convertLongBvToStr(result, cellsA);
+    printf("SumMod2: %s \n", stroka);
+    free(result);
+    result = NULL;
+    free(stroka);
+    stroka = NULL;}
+
+result = inversion(vecA, lenA);
+printBV(result,lenA);
+if (result){
+    char *stroka = convertLongBvToStr(result, cellsA);
+    printf("Invertion: %s \n", stroka);
+    free(result);
+    result = NULL;
+    free(stroka);
+    stroka = NULL;}
+// Сдвиг влево
+  //result = shiftRight(vecA, lenA, 3);
+ //printBV(result,lenA);
+  //if (result){
+    //char *stroka = convertLongBvToStr(result, cellsA);
+    //printf("SdvigRight: %s \n", stroka);
+    //free(result);
+    //result = NULL;
+    //free(stroka);
+   // stroka = NULL;}
+
+// установка k-то бита
+  //set1(vecA, lenA,3);
+  //if (vecA){
+    //char *stroka = convertLongBvToStr(vecA, cellsA);
+    //printf("%s \n", stroka);
+    //free(stroka);
+    //stroka = NULL;}
+//сброс k-того бита
+  //set0(vecA, lenA,3);
+  //if (vecA){
+    //char *stroka = convertLongBvToStr(vecA, cellsA);
+    //printf("%s \n", stroka);
+    //free(stroka);
+    //stroka = NULL;}
+
+  free(vecA);
+  free(vecB);
+  return 0;
 }
