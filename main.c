@@ -261,7 +261,20 @@ unsigned char *result = inversion(vecA, lenA);
     unsigned char *result2 = shiftLeft(result, lenA,3);
   if (result2){
     char *stroka = convertLongBvToStr(result2, cellsA);
-    printf("kaskad %s \n", stroka);
+    printf("kaskad for left %s \n", stroka);
+    free(stroka);}
+    free(result);
+    result = NULL;
+    free(result2);
+    result2 = NULL;}
+
+vecA = convertStrtoLongBv(strA, &cellsA);
+result = inversion(vecA, lenA);
+  if (result){
+    unsigned char *result2 = shiftRight(result, lenA,3);
+  if (result2){
+    char *stroka = convertLongBvToStr(result2, cellsA);
+    printf("kaskad for right %s \n", stroka);
     free(stroka);}
     free(result);
     result = NULL;
