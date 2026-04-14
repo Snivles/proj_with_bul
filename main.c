@@ -205,6 +205,24 @@ unsigned char *shiftRight(unsigned char *vec, size_t len, size_t n) {
         mask = (mask >> (8-ostat));
         result[size_byte - 1] = result[size_byte - 1] & mask;}
     return result;}
+
+
+void printBV(unsigned char *vec, int size){
+    if(vec && size){
+        int byte = ((size - 1) / 8) + 1; // байты
+        int ix = 0;
+        unsigned char mask =1;
+        for (int i = 0; i < byte;i++){
+              mask = 1;
+              for (int j = 0; (j<8) && (ix < size);j++){
+                       if ((vec[i]& mask) != 0){printf("1");}
+                       else {printf("0");}
+                       mask = mask << 1;
+                       ix++;
+}
+}
+}
+}
 int main()
 {
     printf("Hello World!\n");
