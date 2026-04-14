@@ -8,7 +8,7 @@
 unsigned char *logSum(unsigned char *vecA, size_t lenA,unsigned char *vecB, size_t lenB) {
     if((lenA==lenB) && vecA && vecB ){
     size_t size_byte = ((lenA - 1) / 8) + 1;
-    unsigned char *result = (unsigned char*)malloc(size_byte);
+    unsigned char *result = (unsigned char*)calloc(size_byte,sizeof(unsigned char));
     if (result) {
         for (size_t i = 0; i < size_byte; i++) {
             result[i] = vecA[i] | vecB[i];}}
@@ -25,7 +25,7 @@ unsigned char *logMul(unsigned char *vecA, size_t lenA,unsigned char *vecB, size
     if((lenA==lenB) && vecA && vecB ){
     unsigned char *result = NULL;
     size_t size_byte = ((lenA - 1) / 8) + 1;
-    result = (unsigned char*)malloc(size_byte);
+    result = (unsigned char*)calloc(size_byte,sizeof(unsigned char));
     for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
 
     if (result) {
@@ -43,8 +43,7 @@ unsigned char *sumMod2(unsigned char *vecA, size_t lenA,unsigned char *vecB, siz
     if((lenA==lenB) && vecA && vecB ){
     unsigned char *result = NULL;
     size_t size_byte = ((lenA - 1) / 8) + 1;
-    result = (unsigned char*)malloc(size_byte);
-    for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
+    result = (unsigned char*)calloc(size_byte,sizeof(unsigned char));
     if (result) {
         for (size_t i = 0; i < size_byte; i++) {
             result[i] = vecA[i] ^ vecB[i];}}
@@ -59,7 +58,7 @@ unsigned char *inversion(unsigned char *vec, size_t len) {
     if (vec){
     unsigned char *result = NULL;
     size_t size_byte = ((len - 1) / 8) + 1;
-    result = (unsigned char*)malloc(size_byte);
+    result = (unsigned char*)calloc(size_byte,sizeof(unsigned char));
     for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
     if (result) {
         for (size_t i = 0; i < size_byte; i++) {
@@ -122,13 +121,13 @@ unsigned char *convertStrtoLongBv(char *str, int *cells){
 
 
 
-char *convertLongBvToStr(unsigned char *vec, size_t sz){
+unsigned char *convertLongBvToStr(unsigned char *vec, size_t sz){
   size_t ix = 0;
   unsigned char mask =1;
-  char* str = NULL;
+  unsigned char* str = NULL;
   if (vec && sz){
     size_t len = 8 * sz + 1;
-    str =(char*)malloc(len);
+    str =(unsigned char*)calloc(len,sizeof(unsigned char));
     for (size_t i = 0; i < len; i++) {str[i] = 0;}
     if (str){
         for (size_t i = 0; i < sz; i++){
@@ -151,7 +150,7 @@ unsigned char *shiftLeft(unsigned char *vec, size_t len, size_t n) {
     if (n >= len){return NULL;}
     size_t size_byte = ((len - 1) / 8) + 1;
     unsigned char *result = NULL;
-    result = (unsigned char*)malloc(size_byte);
+    result = (unsigned char*)calloc(size_byte,sizeof(unsigned char));
     for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
     if (!result) return NULL;
     size_t byte = n / 8; // на сколько байтов сдвиг
@@ -181,7 +180,7 @@ unsigned char *shiftRight(unsigned char *vec, size_t len, size_t n) {
 
     size_t size_byte = ((len - 1) / 8) + 1;
     unsigned char *result = NULL;
-    result = (unsigned char*)malloc(size_byte);
+    result = (unsigned char*)calloc(size_byte,sizeof(unsigned char));
     if (!result) return NULL;
     for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
     size_t byte = n / 8; // на сколько байтов сдвиг
