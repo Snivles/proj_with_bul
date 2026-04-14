@@ -77,13 +77,22 @@ unsigned char *inversion(unsigned char *vec, size_t len) {
 
 // установка k-того разряда
 // 110111 , хочу вместо 0 поставить 1 , тогда мне нужно сделать маску где я сдвину в ней одну 1 на k мест, т.e. 001000 применить сложение логи
+// void set1(unsigned char *vec, size_t len,size_t k)
+// {   if (k < len && vec){
+//     int byte = 0;
+//     unsigned char mask = 1;
+//     byte = k/8; //номер  ячейки
+//     int bit = k%8; // номер разряда  в ячейке
+//     mask = mask << bit;
+//     vec[byte] = vec[byte] | mask;}
+// }
 void set1(unsigned char *vec, size_t len,size_t k)
 {   if (k < len && vec){
     int byte = 0;
-    unsigned char mask = 1;
+    unsigned char mask = 2 * 2 * 2 * 2 * 2 * 2 * 2;
     byte = k/8; //номер  ячейки
     int bit = k%8; // номер разряда  в ячейке
-    mask = mask << bit;
+    mask = mask >> (7-bit);
     vec[byte] = vec[byte] | mask;}
 }
 // сброс k-того разряда
@@ -303,7 +312,7 @@ result = inversion(vecA, lenA);
     result = NULL;
     free(result2);
     result2 = NULL;}
-
+  printf("\n");
 for (int i = 0 ; i < 100; i++){
     if (i==0){printBV(vecA,lenA);}
     if (i >= lenA){break;}
