@@ -74,7 +74,6 @@ unsigned char *inversion(unsigned char *vec, size_t len) {
     return NULL;}
 
 
-
 // установка k-того разряда
 // 110111 , хочу вместо 0 поставить 1 , тогда мне нужно сделать маску где я сдвину в ней одну 1 на k мест, т.e. 001000 применить сложение логи
 // void set1(unsigned char *vec, size_t len,size_t k)
@@ -169,9 +168,9 @@ unsigned char *shiftLeft(unsigned char *vec, size_t len, size_t n) {
     if (!result) return NULL;
     size_t byte = n / 8; // на сколько байтов сдвиг
     size_t bit = n % 8; // на сколько бит сдвиг
-
+    unsigned char byte_working = 0;
     for (size_t i = 0; i < size_byte; i++) {
-        unsigned char byte_working = 0;
+        byte_working = 0;
 
         if (i + byte < size_byte) {
             byte_working = vec[i + byte] >> bit;}
@@ -199,9 +198,9 @@ unsigned char *shiftRight(unsigned char *vec, size_t len, size_t n) {
     for (size_t i = 0; i < size_byte; i++) {result[i] = 0;}
     size_t byte = n / 8; // на сколько байтов сдвиг
     size_t bit = n % 8; // на сколько бит сдвиг
-
+    unsigned char byte_working = 0;
     for (size_t i = size_byte-1; i < size_byte; i--) {
-        unsigned char byte_working = 0;
+        byte_working = 0;
 
         if (i >= byte) {
             byte_working = vec[i - byte] << bit;}
@@ -254,12 +253,12 @@ int main()
 
   //char *strA = "0000000";//7 бит
   //char *strB = "1111111"; // 7 бит
-  //char *strB = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; // 100 бит
- //char *strA = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"; // 100 бит
+  char *strB = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; // 100 бит
+  char *strA = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"; // 100 бит
 
-  char *strA = "0000000000";//7 бит
-  char *strB = "0000000000"; // 7 бит
-
+  //char *strA = NULL;//NULL
+  //char *strB = NULL; // NULL
+  if(!strA || !strB){printf("Error with NULL"); return 0;}
   int cellsA, cellsB;
   unsigned char *vecA = convertStrtoLongBv(strA, &cellsA);
   unsigned char *vecB = convertStrtoLongBv(strB, &cellsB);
@@ -270,7 +269,18 @@ int main()
 
 
 
-unsigned char *result = inversion(vecA, lenA);
+unsigned char *result = inversion(vecB, lenB);
+if (result){
+  printBV(result,lenB);
+  printf("\n");
+  unsigned char *stroka = convertLongBvToStr(result, cellsB);
+  printf("%s",stroka);
+  free(result);
+  result = NULL;
+  free(stroka);
+  result = NULL;
+}
+printBV(result,lenB);
 // printBV(result,lenA);
 // if (result){
 //     char *stroka = convertLongBvToStr(result, cellsA);
@@ -279,16 +289,16 @@ unsigned char *result = inversion(vecA, lenA);
 //     free(stroka);
 //     stroka = NULL;}
 
-
-printBV(vecA,lenA);
+/*p
+printBV(vecB,lenB);
 printf("\n");
 printf("Результат Инверсии: ");
-printBV(result,lenA);
+printBV(result,lenB);
 printf("\n");
   if (result){
-    unsigned char *result2 = shiftLeft(result, lenA,3);
+    unsigned char *result2 = shiftLeft(result, lenB,3);
   if (result2){
-    char *stroka = convertLongBvToStr(result2, cellsA);
+    unsigned char *stroka = convertLongBvToStr(result2, cellsB);
     printf("Результат после сдвигов: ");
     printf("%s",stroka);
     printf("\n");
@@ -313,7 +323,7 @@ result = inversion(vecA, lenA);
   if (result){
     unsigned char *result2 = shiftRight(result, lenA,3);
   if (result2){
-    char *stroka = convertLongBvToStr(result2, cellsA);
+    unsigned char *stroka = convertLongBvToStr(result2, cellsA);
     printf("kaskad for right %s \n", stroka);
     free(stroka);}
     free(result);
@@ -432,7 +442,7 @@ if (result){
     //printf("%s \n", stroka);
     //free(stroka);
     //stroka = NULL;}
-
+*/
   free(vecA);
   free(vecB);
   return 0;
