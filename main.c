@@ -76,24 +76,23 @@ unsigned char *inversion(unsigned char *vec, size_t len) {
 
 // установка k-того разряда
 // 110111 , хочу вместо 0 поставить 1 , тогда мне нужно сделать маску где я сдвину в ней одну 1 на k мест, т.e. 001000 применить сложение логи
+void set1(unsigned char *vec, size_t len,size_t k){
+  if ((k < len) && vec){
+    int byte = 0;
+    unsigned char mask = 1;
+    byte = k/8; //номер  ячейки
+    int bit = k%8; // номер разряда  в ячейке
+    mask = mask << bit;
+    vec[byte] = vec[byte] | mask;}}
 // void set1(unsigned char *vec, size_t len,size_t k)
 // {   if (k < len && vec){
 //     int byte = 0;
-//     unsigned char mask = 1;
+//     unsigned char mask = 2 * 2 * 2 * 2 * 2 * 2 * 2;
 //     byte = k/8; //номер  ячейки
 //     int bit = k%8; // номер разряда  в ячейке
-//     mask = mask << bit;
+//     mask = mask >> (7-bit);
 //     vec[byte] = vec[byte] | mask;}
 // }
-void set1(unsigned char *vec, size_t len,size_t k)
-{   if (k < len && vec){
-    int byte = 0;
-    unsigned char mask = 2 * 2 * 2 * 2 * 2 * 2 * 2;
-    byte = k/8; //номер  ячейки
-    int bit = k%8; // номер разряда  в ячейке
-    mask = mask >> (7-bit);
-    vec[byte] = vec[byte] | mask;}
-}
 // сброс k-того разряда
 // 111111 хочу на том же месте убрать 1, тогда мне надо сделать маску где я сдвину в ней одну 1 на k мест, t.e 001000 инвертирую 110111
 // и сделаю лог умнож( ИЛИ это (искл или) но да ладно)
@@ -262,25 +261,34 @@ int main()
   int cellsA, cellsB;
   unsigned char *vecA = convertStrtoLongBv(strA, &cellsA);
   unsigned char *vecB = convertStrtoLongBv(strB, &cellsB);
+  int k = 99;
   if(!vecA || !vecB){printf("Error with NULL"); return 0;}
   int lenA = strlen(strA);
   int lenB = strlen(strB);
+  if (k >= (lenA) && k >= (lenB)){return 0;}
   if (lenA <= 0 || lenB <= 0 || lenA != lenB){printf("Error with size"); return 0;}
 
 
 
-unsigned char *result = inversion(vecB, lenB);
-if (result){
-  printBV(result,lenB);
-  printf("\n");
-  unsigned char *stroka = convertLongBvToStr(result, cellsB);
-  printf("%s",stroka);
-  free(result);
-  result = NULL;
-  free(stroka);
-  result = NULL;
-}
-printBV(result,lenB);
+set1(vecB,lenB,k);
+if (vecB== NULL){return 0;}
+printBV(vecB,lenB);
+
+
+
+
+// unsigned char *result = inversion(vecB, lenB);
+// if (result){
+//   printBV(result,lenB);
+//   printf("\n");
+//   unsigned char *stroka = convertLongBvToStr(result, cellsB);
+//   printf("%s",stroka);
+//   free(result);
+//   result = NULL;
+//   free(stroka);
+//   result = NULL;
+// }
+// printBV(result,lenB);
 // printBV(result,lenA);
 // if (result){
 //     char *stroka = convertLongBvToStr(result, cellsA);
