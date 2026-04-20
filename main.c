@@ -101,6 +101,16 @@ void set1(unsigned char *vec, size_t len,size_t k){
 //14.04.2026 не работает для полностью нулями!!! (поменял логику)
 //0001100 -> xor(1000000) = 1001100 ->  0001100 ( 1 из вариантов)
 //0001100 -> (0111111) -> 0001100( 2 вариант)
+// void set0(unsigned char *vec, size_t len,size_t k)
+// {   if (k < len && vec){
+//     int byte = 0;
+//     unsigned char mask = 1;
+//     byte = k/8; //номер  ячейки
+//     int bit = k%8; // номер разряда  в ячейке
+//     mask = mask << bit;
+//     vec[byte] = vec[byte] & (~mask);}
+// }
+
 void set0(unsigned char *vec, size_t len,size_t k)
 {   if (k < len && vec){
     int byte = 0;
@@ -108,7 +118,7 @@ void set0(unsigned char *vec, size_t len,size_t k)
     byte = k/8; //номер  ячейки
     int bit = k%8; // номер разряда  в ячейке
     mask = mask << bit;
-    vec[byte] = vec[byte] & (~mask);}
+    vec[byte] = (vec[byte] |mask)^mask;}
 }
 
 unsigned char *convertStrtoLongBv(char *str, int *cells){
@@ -235,10 +245,10 @@ void printBV(unsigned char *vec, int size){
 int main()
 {
   //char *strA = "110011"; // 6 бит
-  //char *strB = "000000"; // 8 бит
+  //char *strB = "00000011"; // 8 бит
 
-  //char *strA = "101001111"; // 9 бит
-  //char *strB = "010110000"; // 9 бит
+  // char *strA = "111111111"; // 9 бит
+  // char *strB = "010110000"; // 9 бит
 
   //char *strA = "g0f00das"; // 8 бит тест нужен чтобы показать, что на вход может поступать что угодно и все будет работать верно
   //char *strB = "01011000"; // 8 бит
@@ -261,7 +271,7 @@ int main()
   int cellsA, cellsB;
   unsigned char *vecA = convertStrtoLongBv(strA, &cellsA);
   unsigned char *vecB = convertStrtoLongBv(strB, &cellsB);
-  int k = 99;
+  int k =99;
   if(!vecA || !vecB){printf("Error with NULL"); return 0;}
   int lenA = strlen(strA);
   int lenB = strlen(strB);
@@ -269,15 +279,36 @@ int main()
   if (lenA <= 0 || lenB <= 0 || lenA != lenB){printf("Error with size"); return 0;}
 
 
+// //одиночная установка на k разряд
+// set1(vecB,lenB,k);
+// if (vecB== NULL){return 0;}
+// printBV(vecB,lenB);
 
-set1(vecB,lenB,k);
-if (vecB== NULL){return 0;}
-printBV(vecB,lenB);
+// //одиночный сброс k разряд
+// set0(vecA,lenA,k);
+// if (vecA== NULL){return 0;}
+// printBV(vecA,lenA);
 
+//установка k разряда
+// for (int i = 0 ; i < 100; i++){
+//     if (i==0){printBV(vecB,lenB);}
+//     if (i >= lenB){break;}
+//     printf("\n");
+//     set1(vecB,lenB,i);
+//     printBV(vecB,lenB);}
 
+// //сброс k разряда
+// for (int i = 0 ; i < 100; i++){
+//     if (i==0){printBV(vecA,lenA);}
+//     if (i >= lenA){break;}
+//     printf("\n");
+//     set0(vecA,lenA,i);
+//     printBV(vecA,lenA);}
 
-
+//инверсия
 // unsigned char *result = inversion(vecB, lenB);
+// printBV(vecB,lenB);
+// printf("\n");
 // if (result){
 //   printBV(result,lenB);
 //   printf("\n");
@@ -288,169 +319,120 @@ printBV(vecB,lenB);
 //   free(stroka);
 //   result = NULL;
 // }
-// printBV(result,lenB);
+
+//одиночный сдвиг влево
+
+// printBV(vecA,lenA);
+// printf("\n");
+// unsigned char *result = shiftLeft(vecA, lenA,k);
 // printBV(result,lenA);
+// printf("\n");
 // if (result){
-//     char *stroka = convertLongBvToStr(result, cellsA);
+//   unsigned char *stroka = convertLongBvToStr(result, cellsA);
+//   printf("%s",stroka);
+  // free(stroka);
+  // stroka = NULL;
+  // free(result);
+  // result = NULL;
+// }
+
+//Сдвиг влево
+// for (int i = 0 ; i <= 100 ; i++){
+//   printf("\n");
+//   if (i ==0){printBV(vecA, lenA);}
+//   else{
+//   unsigned char * result = shiftLeft(vecA, lenA, 1);
+//   if (result){
+//     printBV(result, lenA);}
+//     vecA = result;}
+// }
+
+//Сдвиг вправо
+// for (int i = 100 ; i >=0 ; i--){
+//   printf("\n");
+//   if (i ==100){printBV(vecA, lenA);}
+//   else{
+//   unsigned char * result = shiftRight(vecA, lenA, 1);
+//   if (result){
+//     printBV(result, lenA);}
+//     vecA = result;}
+// }
+// //лог сумма
+// unsigned char* result = logSum(vecA, lenA,vecB, lenB);
+// printBV(result,lenA);
+// printf("\n");
+
+// if (result){
+//     unsigned char *stroka = convertLongBvToStr(result, cellsA);
+//     printf("%s", stroka);
 //     free(result);
 //     result = NULL;
 //     free(stroka);
 //     stroka = NULL;}
 
-/*p
-printBV(vecB,lenB);
-printf("\n");
-printf("Результат Инверсии: ");
-printBV(result,lenB);
-printf("\n");
-  if (result){
-    unsigned char *result2 = shiftLeft(result, lenB,3);
-  if (result2){
-    unsigned char *stroka = convertLongBvToStr(result2, cellsB);
-    printf("Результат после сдвигов: ");
-    printf("%s",stroka);
-    printf("\n");
-    free(stroka);}
-    free(result);
-    result = NULL;
-    free(result2);
-    result2 = NULL;}
+//лог умнож
+// unsigned char* result = logMul(vecA, lenA,vecB, lenB);
+// printBV(result,lenA);
+// printf("\n");
+// if (result){
+//     unsigned char *stroka = convertLongBvToStr(result, cellsA);
+//     printf("%s", stroka);
+//     free(result);
+//     result = NULL;
+//     free(stroka);
+//     stroka = NULL;}
+
+//иск или
+// unsigned char* result = sumMod2(vecA, lenA,vecB, lenB);
+// printBV(result,lenA);
+// printf("\n");
+// if (result){
+//     unsigned char *stroka = convertLongBvToStr(result, cellsA);
+//     printf("%s", stroka);
+//     free(result);
+//     result = NULL;
+//     free(stroka);
+//     stroka = NULL;}
+
+
+// printBV(vecB,lenB);
+// printf("\n");
+// printf("Результат Инверсии: ");
+// printBV(result,lenB);
+// printf("\n");
+//   if (result){
+//     unsigned char *result2 = shiftLeft(result, lenB,3);
+//   if (result2){
+//     unsigned char *stroka = convertLongBvToStr(result2, cellsB);
+//     printf("Результат после сдвигов: ");
+//     printf("%s",stroka);
+//     printf("\n");
+//     free(stroka);}
+//     free(result);
+//     result = NULL;
+//     free(result2);
+//     result2 = NULL;}
 
 
 
 
 
-printf("\n");
-printf("----------------------------------------------------------------------------------------------------");
-printf("\n");
-
-vecA = convertStrtoLongBv(strA, &cellsA);
-result = inversion(vecA, lenA);
 
 
-  if (result){
-    unsigned char *result2 = shiftRight(result, lenA,3);
-  if (result2){
-    unsigned char *stroka = convertLongBvToStr(result2, cellsA);
-    printf("kaskad for right %s \n", stroka);
-    free(stroka);}
-    free(result);
-    result = NULL;
-    free(result2);
-    result2 = NULL;}
-  printf("\n");
-for (int i = 0 ; i < 100; i++){
-    if (i==0){printBV(vecB,lenB);}
-    if (i >= lenB){break;}
-    printf("\n");
-    set1(vecB,lenB,i);
-    printBV(vecB,lenB);}
+//   if (result){
+//     unsigned char *result2 = shiftRight(result, lenA,3);
+//   if (result2){
+//     unsigned char *stroka = convertLongBvToStr(result2, cellsA);
+//     printf("kaskad for right %s \n", stroka);
+//     free(stroka);}
+//     free(result);
+//     result = NULL;
+//     free(result2);
+//     result2 = NULL;}
+//   printf("\n");
 
 
-printf("\n");
-printf("----------------------------------------------------------------------------------------------------");
-printf("\n");
-for (int i = 0 ; i < 100; i++){
-    if (i==0){printBV(vecA,lenA);}
-    if (i >= lenA){break;}
-    printf("\n");
-    set0(vecA,lenA,i);
-    printBV(vecA,lenA);}
 
-printf("\n");
-
-//Сдвиг влево
-//for (int i = 0 ; i <= 7 ; i++){
-  //printf("\n");
-  //if (i ==0){printBV(vecA, lenA);}
-  //else{
-  //unsigned char * result = shiftLeft(vecA, lenA, 1);
-  //if (result){
-    //printBV(result, lenA);}
-    //free(vecA);
-    //vecA = result;}
-//}
-//printf("\n");
-//printf("----------------------------------------------------------------------------------------------------");
-//Сдвиг вправо
-//for (int i = 7 ; i >=0 ; i--){
-  //printf("\n");
-  //if (i ==100){printBV(vecA, lenA);}
-  //else{
-  //unsigned char * result = shiftRight(vecA, lenA, 1);
-  //if (result){
-   // printBV(result, lenA);}
-    //free(vecA);
-  //  vecA = result;}
-//}
-printf("\n");
-printf("----------------------------------------------------------------------------------------------------");
-printf("\n");
-result = logSum(vecA, lenA,vecB, lenB);
-printBV(result,lenA);
-if (result){
-    unsigned char *stroka = convertLongBvToStr(result, cellsA);
-    printf("Sum: %s \n", stroka);
-    free(result);
-    result = NULL;
-    free(stroka);
-    stroka = NULL;}
-
-result = logMul(vecA, lenA,vecB, lenB);
-printBV(result,lenA);
-if (result){
-    unsigned char *stroka = convertLongBvToStr(result, cellsA);
-    printf("Mul: %s \n", stroka);
-    free(result);
-    result = NULL;
-    free(stroka);
-    stroka = NULL;}
-
-result = sumMod2(vecA, lenA,vecB, lenB);
-printBV(result,lenA);
-if (result){
-    unsigned char *stroka = convertLongBvToStr(result, cellsA);
-    printf("SumMod2: %s \n", stroka);
-    free(result);
-    result = NULL;
-    free(stroka);
-    stroka = NULL;}
-
-result = inversion(vecA, lenA);
-printBV(result,lenA);
-if (result){
-    unsigned char *stroka = convertLongBvToStr(result, cellsA);
-    printf("Invertion: %s \n", stroka);
-    free(result);
-    result = NULL;
-    free(stroka);
-    stroka = NULL;}
-// Сдвиг влево
-  //result = shiftRight(vecA, lenA, 3);
- //printBV(result,lenA);
-  //if (result){
-    //char *stroka = convertLongBvToStr(result, cellsA);
-    //printf("SdvigRight: %s \n", stroka);
-    //free(result);
-    //result = NULL;
-    //free(stroka);
-   // stroka = NULL;}
-
-// установка k-то бита
-  //set1(vecA, lenA,3);
-  //if (vecA){
-    //char *stroka = convertLongBvToStr(vecA, cellsA);
-    //printf("%s \n", stroka);
-    //free(stroka);
-    //stroka = NULL;}
-//сброс k-того бита
-  //set0(vecA, lenA,3);
-  //if (vecA){
-    //char *stroka = convertLongBvToStr(vecA, cellsA);
-    //printf("%s \n", stroka);
-    //free(stroka);
-    //stroka = NULL;}
-*/
   free(vecA);
   free(vecB);
   return 0;
