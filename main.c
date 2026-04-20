@@ -251,19 +251,26 @@ int main()
   //char *strA = "1"; // 1 бит
   //char *strB = "9"; // 1 бит !!! не происходит изменение хвоста даже если ставим сет бит  поэтому его тут обрабатывать не надо!!!
 
+  //char *strA =  "dd0000";//6 бит
+  //char *strB = "asdasd"; // 6 бит
+  //char *strA = NULL;
+  //char *strB = "123123";
 
-  //char *strA = "0000000";//7 бит
+  //char *strA = "1000011";//7 бит
   //char *strB = "1111111"; // 7 бит
-  char *strB = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; // 100 бит
-  char *strA = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"; // 100 бит
+  // char *strB = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; // 100 бит
+  // char *strA = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"; // 100 бит
 
   //char *strA = NULL;//NULL
   //char *strB = NULL; // NULL
-  if(!strA || !strB){printf("Error with NULL"); return 0;}
+
+  char *strA = "110011001100"; //12
+  char *strB = "554431230000"; //12
+if(!strA || !strB){printf("Error with NULL"); return 0;}
   int cellsA, cellsB;
   unsigned char *vecA = convertStrtoLongBv(strA, &cellsA);
   unsigned char *vecB = convertStrtoLongBv(strB, &cellsB);
-  int k =99;
+  int k =6;
   if(!vecA || !vecB){printf("Error with NULL"); return 0;}
   int lenA = strlen(strA);
   int lenB = strlen(strB);
@@ -271,12 +278,16 @@ int main()
   if (lenA <= 0 || lenB <= 0 || lenA != lenB){printf("Error with size"); return 0;}
 
 
+
+
+
+
 // //одиночная установка на k разряд
 // set1(vecB,lenB,k);
 // if (vecB== NULL){return 0;}
 // printBV(vecB,lenB);
 
-// //одиночный сброс k разряд
+//одиночный сброс k разряд
 // set0(vecA,lenA,k);
 // if (vecA== NULL){return 0;}
 // printBV(vecA,lenA);
@@ -290,12 +301,12 @@ int main()
 //     printBV(vecB,lenB);}
 
 // //сброс k разряда
-for (int i = 0 ; i < 100; i++){
-    if (i==0){printBV(vecA,lenA);}
-    if (i >= lenA){break;}
-    printf("\n");
-    set0(vecA,lenA,i);
-    printBV(vecA,lenA);}
+// for (int i = 0 ; i < 100; i++){
+//     if (i==0){printBV(vecA,lenA);}
+//     if (i >= lenA){break;}
+//     printf("\n");
+//     set0(vecA,lenA,i);
+//     printBV(vecA,lenA);}
 
 //инверсия
 // unsigned char *result = inversion(vecB, lenB);
