@@ -264,8 +264,8 @@ int main()
   //char *strA = NULL;//NULL
   //char *strB = NULL; // NULL
 
-  char *strA = "110011001100"; //12
-  char *strB = "554431230000"; //12
+  char *strA = "00000000"; //12
+  char *strB = "11111111"; //12
 if(!strA || !strB){printf("Error with NULL"); return 0;}
   int cellsA, cellsB;
   unsigned char *vecA = convertStrtoLongBv(strA, &cellsA);
@@ -277,6 +277,19 @@ if(!strA || !strB){printf("Error with NULL"); return 0;}
   if (k >= (lenA) && k >= (lenB)){return 0;}
   if (lenA <= 0 || lenB <= 0 || lenA != lenB){printf("Error with size"); return 0;}
 
+
+unsigned char* result = inversion(vecA,lenA);
+if (result)
+{
+  unsigned char* result2 = shiftLeft(result,lenA,3);
+  printBV(result2,lenA);
+  free(result2);
+  free(result);
+}
+result = shiftLeft(vecB,lenB,3);
+printf("\n");
+printBV(result,lenB);
+free(result);
 
 
 
