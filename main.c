@@ -76,23 +76,15 @@ unsigned char *inversion(unsigned char *vec, size_t len) {
 
 // установка k-того разряда
 // 110111 , хочу вместо 0 поставить 1 , тогда мне нужно сделать маску где я сдвину в ней одну 1 на k мест, т.e. 001000 применить сложение логи
-void set1(unsigned char *vec, size_t len,size_t k){
-  if ((k < len) && vec){
+void set1(unsigned char *vec, size_t len,size_t k)
+{   if (k < len && vec){
     int byte = 0;
-    unsigned char mask = 1;
+    unsigned char mask = 128;
     byte = k/8; //номер  ячейки
     int bit = k%8; // номер разряда  в ячейке
-    mask = mask << bit;
-    vec[byte] = vec[byte] | mask;}}
-// void set1(unsigned char *vec, size_t len,size_t k)
-// {   if (k < len && vec){
-//     int byte = 0;
-//     unsigned char mask = 2 * 2 * 2 * 2 * 2 * 2 * 2;
-//     byte = k/8; //номер  ячейки
-//     int bit = k%8; // номер разряда  в ячейке
-//     mask = mask >> (7-bit);
-//     vec[byte] = vec[byte] | mask;}
-// }
+    mask = mask >> (7-bit);
+    vec[byte] = vec[byte] | mask;}
+}
 // сброс k-того разряда
 // 111111 хочу на том же месте убрать 1, тогда мне надо сделать маску где я сдвину в ней одну 1 на k мест, t.e 001000 инвертирую 110111
 // и сделаю лог умнож( ИЛИ это (искл или) но да ладно)
@@ -104,20 +96,20 @@ void set1(unsigned char *vec, size_t len,size_t k){
 // void set0(unsigned char *vec, size_t len,size_t k)
 // {   if (k < len && vec){
 //     int byte = 0;
-//     unsigned char mask = 1;
+//     unsigned char mask = 128;
 //     byte = k/8; //номер  ячейки
 //     int bit = k%8; // номер разряда  в ячейке
-//     mask = mask << bit;
+//     mask = mask >> (7-bit);
 //     vec[byte] = vec[byte] & (~mask);}
 // }
 
 void set0(unsigned char *vec, size_t len,size_t k)
 {   if (k < len && vec){
     int byte = 0;
-    unsigned char mask = 1;
+    unsigned char mask = 128;
     byte = k/8; //номер  ячейки
     int bit = k%8; // номер разряда  в ячейке
-    mask = mask << bit;
+    mask = mask >>(7-bit);
     vec[byte] = (vec[byte] |mask)^mask;}
 }
 
@@ -289,7 +281,7 @@ int main()
 // if (vecA== NULL){return 0;}
 // printBV(vecA,lenA);
 
-//установка k разряда
+// установка k разряда
 // for (int i = 0 ; i < 100; i++){
 //     if (i==0){printBV(vecB,lenB);}
 //     if (i >= lenB){break;}
@@ -298,12 +290,12 @@ int main()
 //     printBV(vecB,lenB);}
 
 // //сброс k разряда
-// for (int i = 0 ; i < 100; i++){
-//     if (i==0){printBV(vecA,lenA);}
-//     if (i >= lenA){break;}
-//     printf("\n");
-//     set0(vecA,lenA,i);
-//     printBV(vecA,lenA);}
+for (int i = 0 ; i < 100; i++){
+    if (i==0){printBV(vecA,lenA);}
+    if (i >= lenA){break;}
+    printf("\n");
+    set0(vecA,lenA,i);
+    printBV(vecA,lenA);}
 
 //инверсия
 // unsigned char *result = inversion(vecB, lenB);
@@ -343,7 +335,8 @@ int main()
 //   else{
 //   unsigned char * result = shiftLeft(vecA, lenA, 1);
 //   if (result){
-//     printBV(result, lenA);}
+//     printBV(result, lenA);
+//     free(vecA);
 //     vecA = result;}
 // }
 
@@ -354,7 +347,8 @@ int main()
 //   else{
 //   unsigned char * result = shiftRight(vecA, lenA, 1);
 //   if (result){
-//     printBV(result, lenA);}
+//     printBV(result, lenA);
+       //free(vecA);
 //     vecA = result;}
 // }
 // //лог сумма
