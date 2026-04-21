@@ -258,14 +258,14 @@ int main()
 
   //char *strA = "1000011";//7 бит
   //char *strB = "1111111"; // 7 бит
-  // char *strB = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; // 100 бит
-  // char *strA = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"; // 100 бит
+   char *strB = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"; // 100 бит
+   char *strA = "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"; // 100 бит
 
   //char *strA = NULL;//NULL
   //char *strB = NULL; // NULL
 
-  char *strA = "00000000"; //12
-  char *strB = "11111111"; //12
+  //char *strA = "00000000"; //12
+  //char *strB = "11111111"; //12
 if(!strA || !strB){printf("Error with NULL"); return 0;}
   int cellsA, cellsB;
   unsigned char *vecA = convertStrtoLongBv(strA, &cellsA);
@@ -278,40 +278,40 @@ if(!strA || !strB){printf("Error with NULL"); return 0;}
   if (lenA <= 0 || lenB <= 0 || lenA != lenB){printf("Error with size"); return 0;}
 
 
-unsigned char* result = inversion(vecA,lenA);
-if (result)
-{
-  unsigned char* result2 = shiftLeft(result,lenA,3);
-  printBV(result2,lenA);
-  free(result2);
-  free(result);
-}
-result = shiftLeft(vecB,lenB,3);
-printf("\n");
-printBV(result,lenB);
-free(result);
+// unsigned char* result = inversion(vecA,lenA);
+// if (result)
+// {
+//   unsigned char* result2 = shiftLeft(result,lenA,3);
+//   printBV(result2,lenA);
+//   free(result2);
+//   free(result);
+// }
+// result = shiftLeft(vecB,lenB,3);
+// printf("\n");
+// printBV(result,lenB);
+// free(result);
 
 
 
 
 
 // //одиночная установка на k разряд
-// set1(vecB,lenB,k);
-// if (vecB== NULL){return 0;}
-// printBV(vecB,lenB);
+// set1(vecA,lenA,k);
+// if (vecA== NULL){return 0;}
+// printBV(vecA,lenA);
 
 //одиночный сброс k разряд
 // set0(vecA,lenA,k);
 // if (vecA== NULL){return 0;}
 // printBV(vecA,lenA);
 
-// установка k разряда
+//установка k разряда
 // for (int i = 0 ; i < 100; i++){
-//     if (i==0){printBV(vecB,lenB);}
-//     if (i >= lenB){break;}
-//     printf("\n");
-//     set1(vecB,lenB,i);
-//     printBV(vecB,lenB);}
+    // if (i==0){printBV(vecB,lenB);}
+    // if (i >= lenA){break;}
+    // printf("\n");
+    // set1(vecB,lenB,i);
+    // printBV(vecB,lenB);}
 
 // //сброс k разряда
 // for (int i = 0 ; i < 100; i++){
@@ -362,7 +362,7 @@ free(result);
 //     printBV(result, lenA);
 //     free(vecA);
 //     vecA = result;}
-// }
+// }}
 
 //Сдвиг вправо
 // for (int i = 100 ; i >=0 ; i--){
@@ -372,9 +372,9 @@ free(result);
 //   unsigned char * result = shiftRight(vecA, lenA, 1);
 //   if (result){
 //     printBV(result, lenA);
-       //free(vecA);
+//        free(vecA);
 //     vecA = result;}
-// }
+// }}
 // //лог сумма
 // unsigned char* result = logSum(vecA, lenA,vecB, lenB);
 // printBV(result,lenA);
